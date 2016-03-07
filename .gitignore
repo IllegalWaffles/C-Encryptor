@@ -1,2 +1,6 @@
 *.txt
 *.exe
+*.dev
+*.o
+*.layout
+*.win
