@@ -14,24 +14,75 @@ time to break.
 char toChar(int in);
 int toInt(char in);
 
-void decryptFile(char[], char[], char[]);
-void encryptFile(char[], char[], char[]);
+void decrypt(char[], char[], char[]);
+void encrypt(char[], char[], char[]);
 
 int strcomp(char[], char[]);
 char encryptChar(char, char);
 unsigned long hash(char*);
 
-int main()
+int main(int argc, char *argv[])
 {
+	
+	char input[3], key[1000];
+	int fullOutputMode = 1;
+	
+	if(argc == 1)
+		;//Do nothing
+	else if(argc == 2 && strcmp(argv[1], "-help") == 0)
+	{
+		
+		printf("Usage:\nTODO\n");
+		
+		return 0;
+		
+	}
+	else if(argc == 4 && strcmp(argv[1], "-e") == 0)
+	{
+				
+		//Encrypt file arguments with default key
+		encrypt(argv[2], argv[3], "");
+		return 0;
+			
+	}
+	else if(argc == 4 && strcmp(argv[1], "-d") == 0)
+	{
+			
+		//Decrypt file arguments with default key
+		decrypt(argv[2], argv[3], "");
+		return 0;
+			
+	}
+	else if(argc == 5 && strcmp(argv[1], "-e") == 0)
+	{
+	
+		//Encrypt file arguments
+		encrypt(argv[2], argv[3], argv[4]);
+		return 0;
+			
+	}
+	else if(argc == 5 && strcmp(argv[1], "-d") == 0)
+	{
+			
+		//Decrypt file arguments
+		decrypt(argv[2], argv[3], argv[4]);
+		return 0;
+		
+	}
+	else
+	{
+		
+		printf("Invalid usage. Run with -help for help.");
+		return 1;
+		
+	}
 	
 	int finished = 0;
 	
 	printf("Menu:\n\nk - Displays the current encryptor key\nnk - Sets a new encryptor key\n");
-	printf("ef - Encrypt a file and write it to the given file - you must include file extension (.txt)\n");
-	printf("df - Decrypt a file and write the result to a given file - you must include file extension (.txt)\n");
+	printf("e - Encrypt a file and write it to the given file - you must include file extension (.txt)\n");
+	printf("d - Decrypt a file and write the result to a given file - you must include file extension (.txt)\n");
 	printf("q - Exit the program\n\n");
-	
-	char input[3], key[1000];
 		
 	key[0] = '\0';
 	
@@ -60,7 +111,7 @@ int main()
 			scanf(" %s", key);
 			
 		}
-		else if(strcomp(input, "ef"))
+		else if(strcomp(input, "e"))
 		{
 			
 			char inFile[100], outFile[100];
@@ -71,10 +122,10 @@ int main()
 			printf("Enter the output file:");
 			scanf(" %s", outFile);
 			
-			encryptFile(inFile, outFile, key);
+			encrypt(inFile, outFile, key);
 			
 		}
-		else if(strcomp(input, "df"))
+		else if(strcomp(input, "d"))
 		{
 			
 			char inFile[100], outFile[100];
@@ -85,7 +136,7 @@ int main()
 			printf("Enter the output file:");
 			scanf(" %s", outFile);
 			
-			decryptFile(inFile, outFile, key);
+			decrypt(inFile, outFile, key);
 			
 		}
 	
@@ -119,7 +170,7 @@ int toInt(char in)
 }
 
 //Encrypts, char by char, FILE in and writes the result to FILE out.
-void encryptFile(char nameIn[], char nameOut[], char key[])
+void encrypt(char nameIn[], char nameOut[], char key[])
 {
 	
 	srand(hash(key));
@@ -138,12 +189,7 @@ void encryptFile(char nameIn[], char nameOut[], char key[])
 		//Calculate the cipher value
 		cipher = toChar((toInt(c) + toInt(keyChar))%96);
 		
-		//If the character to write is a newline (\n)
-		//Write a new line to the file
-		//if(cipher == '\n')
-			//fprintf(out, "\n");
-		//else
-			fputc(cipher, out);
+		fputc(cipher, out);
 	
 	}
 	
@@ -154,7 +200,7 @@ void encryptFile(char nameIn[], char nameOut[], char key[])
 }
 
 //Decrypts, char by char, FILE in and writes the result to FILE out.
-void decryptFile(char nameIn[], char nameOut[], char key[])
+void decrypt(char *nameIn, char *nameOut, char *key)
 {
 	
 	srand(hash(key));
@@ -189,7 +235,7 @@ void decryptFile(char nameIn[], char nameOut[], char key[])
 	
 }
 
-//Modified String compare function, simply return 1 if str1 and str2 are equal
+//Modified String compare function, simply return 1 if str1 and str2 are equal, 0 otherwise
 int strcomp(char str1[], char str2[])
 {
 	
