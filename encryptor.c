@@ -130,6 +130,97 @@ int main(int argc, char *argv[])
 		return 0;
 		
 	}
+	else if(argc == 2 && strcmp(argv[1], "-ui") == 0)
+	{
+		
+		int finished = 0;
+		char input[3], key[1000];
+		
+		printf("Menu:\n\nk - Displays the current encryptor key\nnk - Sets a new encryptor key\n");
+		printf("e - Encrypt a file and write it to the given file - you must include file extension (.txt)\n");
+		printf("d - Decrypt a file and write the result to a given file - you must include file extension (.txt)\n");
+		printf("q - Exit the program\n\n");
+	
+		key[0] = '\0';
+		
+		while(!finished){
+		
+			printf("> ");
+			scanf(" %s", input);
+			
+			if(strcmp(input, "q") == 0 || strcmp(input, "exit") == 0)
+			{
+				
+				finished++;
+				printf("Exiting... goodbye!");
+				
+			}
+			else if(strcmp(input, "k") == 0)
+			{
+				
+				printf("Current key: %s\n", key);
+				
+			}
+			else if(strcmp(input, "nk") == 0)
+			{
+				
+				printf("Enter a new key:");
+				scanf(" %[^\n]%*c", key);
+				
+			}
+			else if(strcmp(input, "e") == 0)
+			{
+				
+				char inputFileName[100], outputFileName[100];
+				FILE *inputFile, *outputFile;
+				
+				printf("Enter the input file:");
+				scanf(" %s", inputFileName);
+				
+				if((inputFile = fopen(inputFileName, "r"))==NULL)
+				{
+					
+					printf("ERROR: Could not open input file");
+					break;//Breaks out of the if
+					
+				}
+				
+				printf("Enter the output file:");
+				scanf(" %s", outputFileName);
+				
+				outputFile = fopen(outputFileName, "w");
+				
+				encrypt(inputFile, outputFile, key);
+				
+			}
+			else if(strcmp(input, "d") == 0)
+			{
+				
+				char inputFileName[100], outputFileName[100];
+				FILE *inputFile, *outputFile;
+				
+				printf("Enter the input file:");
+				scanf(" %s", inputFileName);
+				
+				if((inputFile = fopen(inputFileName, "r"))==NULL)
+				{
+					
+					printf("ERROR: Could not open input file");
+					break;//Breaks out of the if
+					
+				}
+				
+				printf("Enter the output file:");
+				scanf(" %s", outputFileName);
+				
+				decrypt(inputFile, outputFile, key);
+				
+			}
+		
+		
+		}
+		
+	}
 	else
 	{
 		
