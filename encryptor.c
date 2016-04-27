@@ -10,127 +10,25 @@ Author - Kuba Gasiorowski
 */
 
 #include "func.h"
+#include <String.h>
+
+/*
+
+	Usages:
+		no arguments - run with ui
+		three arguments - first flag determines encrypt or decrypt,
+						  second arg is input file,
+						  third arg is output file,
+						  reads in key value				  
+		
+
+*/
+
 
 int main(int argc, char *argv[])
 {
-	
-	if(argc == 2 && strcmp(argv[1], "-help") == 0)
-	{
 		
-		printf("Usage:\nTODO\n");
-		
-		return 0;
-		
-	}
-	else if(argc == 3 && strcmp(argv[1], "-e") == 0)
-	{
-		
-		FILE *input;
-		if((input = fopen(argv[2], "r")) == NULL)
-		{
-			
-			printf("ERROR: Could not open input file");
-			return 1;
-			
-		}
-		
-		encrypt(input, stdout, "");
-		return 0;
-		
-	}
-	else if(argc == 3 && strcmp(argv[1], "-d") == 0)
-	{
-		
-		FILE *input;
-		if((input = fopen(argv[2], "r")) == NULL)
-		{
-			
-			printf("ERROR: Could not open input file");
-			return 1;
-			
-		}
-		
-		decrypt(input, stdout, "");
-		return 0;
-		
-	}
-	else if(argc == 4 && strcmp(argv[1], "-e") == 0)
-	{
-				
-		//Encrypt file arguments with default key
-		FILE *input, *output;
-		if((input = fopen(argv[2], "r")) == NULL)
-		{
-			
-			printf("ERROR: Could not open input file");
-			return 1;
-			
-		}
-		
-		output = fopen(argv[3], "w");
-		
-		encrypt(input, output, "");
-		return 0;
-			
-	}
-	else if(argc == 4 && strcmp(argv[1], "-d") == 0)
-	{
-			
-		//Decrypt file arguments with default key
-		FILE *input, *output;
-		if((input = fopen(argv[2], "r")) == NULL)
-		{
-			
-			printf("ERROR: Could not open input file");
-			return 1;
-			
-		}
-		
-		output = fopen(argv[3], "w");
-		
-		decrypt(input, output, "");
-		return 0;
-			
-	}
-	else if(argc == 5 && strcmp(argv[1], "-e") == 0)
-	{
-	
-		//Encrypt file arguments
-		FILE *input, *output;
-		if((input = fopen(argv[2], "r")) == NULL)
-		{
-			
-			printf("ERROR: Could not open input file");
-			return 1;
-			
-		}
-		
-		output = fopen(argv[3], "w");
-		
-		encrypt(input, output, argv[4]);
-		return 0;
-			
-	}
-	else if(argc == 5 && strcmp(argv[1], "-d") == 0)
-	{
-			
-		//Decrypt file arguments
-		FILE *input, *output;
-		if((input = fopen(argv[2], "r")) == NULL)
-		{
-			
-			printf("ERROR: Could not open input file");
-			return 1;
-			
-		}
-		
-		output = fopen(argv[3], "w");
-		
-		decrypt(input, output, argv[4]);
-		return 0;
-		
-	}
-	else if(argc == 2 && strcmp(argv[1], "-ui") == 0)
+	if(argc == 1)
 	{
 		
 		int finished = 0;
@@ -181,16 +79,25 @@ int main(int argc, char *argv[])
 				{
 					
 					printf("ERROR: Could not open input file");
-					break;//Breaks out of the if
+					continue;//Breaks out of the if
 					
 				}
 				
 				printf("Enter the output file:");
 				scanf(" %s", outputFileName);
 				
-				outputFile = fopen(outputFileName, "w");
+				if((outputFile = fopen(outputFileName, "w"))==NULL)
+				{
+					
+					printf("ERROR: Could not open output file");
+					continue;
+					
+				}
 				
 				encrypt(inputFile, outputFile, key);
+				
+				fclose(inputFile);
+				fclose(outputFile);
 				
 			}
 			else if(strcmp(input, "d") == 0)
@@ -206,27 +113,83 @@ int main(int argc, char *argv[])
 				{
 					
 					printf("ERROR: Could not open input file");
-					break;//Breaks out of the if
+					continue;
 					
 				}
 				
 				printf("Enter the output file:");
 				scanf(" %s", outputFileName);
 				
+				if((outputFile = fopen(outputFileName, "w"))==NULL)
+				{
+					
+					printf("ERROR: Could not open output file");
+					continue;
+					
+				}
+				
 				decrypt(inputFile, outputFile, key);
 				
+				fclose(inputFile);
+				fclose(outputFile);
+				
+			}
+			else
+			{
+			
+				printf("Error: Invalid input\n");
+			
 			}
 		
 		
 		}
 		
+	}else if(argc == 4){
+		
+		char *flag, key[100];
+		FILE *input, *output;
+		
+		flag = argv[1];
+		
+		if((input = fopen(argv[2],"r")) == NULL)
+		{
+		
+			printf("ERROR: Could not open input file");
+			return 1;
+		
+		}
+		
+		if((output = fopen(argv[3], "w")) == NULL)
+		{
+		
+			printf("ERROR: Could not open input file");
+			return 1;
+		
+		}
+		
+		printf("Enter a key:");
+		scanf(" %[^\n]%*c", key);
+		
+		if(strcmp(flag, "-d") == 0)
+		{
+		
+			printf("test 2");
+			decrypt(input,output,key);
+		
+		}
+		else if(strcmp(flag, "-e") == 0)
+		{
+		
+			encrypt(input,output,key);
+			
+		}
+	
 	}
 	else
 	{
 		
-		printf("Invalid usage. Run with -help for help.");
-		return 1;
-		
+		printf("Usage:\n");
+	
 	}
 	
 	return 0;
