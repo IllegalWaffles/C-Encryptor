@@ -6,6 +6,8 @@ char toChar(int in)
 	
 	if(in == 95)
 		return '\n';
+	else if(in == 96)
+		return '\t';
 	
 	return (char)(in+32);
 	
@@ -17,6 +19,8 @@ int toInt(char in)
 	
 	if(in == '\n')
 		return 95;
+	else if(in == '\t')
+		return 96;
 	
 	return in-32;
 	
@@ -34,10 +38,10 @@ void encrypt(FILE *inputFile, FILE *outputFile, char key[])
 	{
 	
 		//Generate a new key value
-		keyChar = (rand()%96) + 32;
+		keyChar = (rand()%97) + 32;
 		
 		//Calculate the cipher value
-		cipher = toChar((toInt(c) + toInt(keyChar))%96);
+		cipher = toChar((toInt(c) + toInt(keyChar))%97);
 		
 		fputc(cipher, outputFile);
 	
@@ -57,13 +61,13 @@ void decrypt(FILE *inputFile, FILE *outputFile, char key[])
 	{
 	
 		//Generate a new key value
-		keyChar = (rand()%96) + 32;
+		keyChar = (rand()%97) + 32;
 		
 		//Generate the plaintext value
 		plainText = toInt(c) - toInt(keyChar);
 		
 		if(plainText < 0)
-			plainText+=96;
+			plainText+=97;
 		
 		plainText = toChar(plainText);
 		
