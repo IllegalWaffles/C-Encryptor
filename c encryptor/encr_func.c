@@ -1,4 +1,6 @@
-#include "func.h"
+#include "encr_func.h"
+#include <stdio.h>
+#include <stdlib.h>
 
 //Converts an int into the correct char
 char toChar(int in)
@@ -84,7 +86,7 @@ unsigned long hash(char *str)
     unsigned long hash = 5381;
     int c;
 
-    while (c = *str++)
+    while ((c = *str++))
         hash = ((hash << 5) + hash) + c;
 
     return hash;

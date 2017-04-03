@@ -1,3 +1,6 @@
+#ifndef __FUNC_H__
+#define __FUNC_H__
+
 #include <stdio.h>
 
 char toChar(int in);
@@ -7,3 +10,5 @@ void decrypt(FILE*, FILE*, char[]);
 void encrypt(FILE*, FILE*, char[]);
 
 unsigned long hash(char*);
+
+#endif
