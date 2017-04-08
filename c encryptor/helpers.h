@@ -8,6 +8,8 @@
 #define DEFAULT_FILE_OUT stdout
 #define DEFAULT_FILE_IN stdin
 #define MAX_STRING_SIZE 256
+#define MAX_KEY_LENGTH 1024
+#define MAX_INPUT_LENGTH 10
 
 #define usage(EXIT)\
 do{\
@@ -19,7 +21,8 @@ printf("\t-e : run encryption\n");\
 printf("\t-d : run decryption\n");\
 printf("\t-i : run with input file infile\n");\
 printf("\t-o : run with output file outfile\n");\
-exit(EXIT);\
+fflush(stdout);\
+finish(EXIT);\
 }while(0)\
 
 typedef struct argdata {
@@ -44,6 +47,7 @@ typedef struct argdata {
 
 Arg_data *parse_args(char **argv, int argc);
 int prgm_ui();
+void finish(int);
 
 #endif
 

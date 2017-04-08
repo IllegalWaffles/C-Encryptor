@@ -106,18 +106,22 @@ Arg_data *parse_args(char **argv, int argc){
 int prgm_ui(){
     
     int finished = 0;
-    char input[3], key[1000];
+    char *input, *key;
 
+    input = (char *)calloc(MAX_INPUT_LENGTH, sizeof(char));
+    key = (char *)calloc(MAX_KEY_LENGTH, sizeof(char));
+    
     printf("Menu:\n\nk - Displays the current encryptor key\nnk - Sets a new encryptor key\n");
     printf("e - Encrypt a file and write it to the given file - you must include file extension (.txt)\n");
     printf("d - Decrypt a file and write the result to a given file - you must include file extension (.txt)\n");
     printf("q - Exit the program\n\n");
 
-    key[0] = '\0';
+    *key = '\0';
 
     while(!finished){
 
         printf("> ");
+        fflush(stdout);
         scanf(" %s", input);
 
         if(strcmp(input, "q") == 0 || strcmp(input, "exit") == 0)
@@ -130,14 +134,16 @@ int prgm_ui(){
         else if(strcmp(input, "k") == 0)
         {
 
-            fprintf(stdout, "Current key: %s\n", key);
+            fprintf(stdout, "Current key: [%s]\n", key);
 
         }
         else if(strcmp(input, "nk") == 0)
         {
 
             fprintf(stdout, "Enter a new key:");
+            fflush(stdout);
             scanf(" %[^\n]%*c", key);
+            fprintf(stdout, "New key set: [%s]\n", key);
 
         }
         else if(strcmp(input, "e") == 0)
@@ -147,23 +153,27 @@ int prgm_ui(){
             FILE *inputFile, *outputFile;
 
             fprintf(stdout, "Enter the input file:");
+            fflush(stdout);
             scanf(" %s", inputFileName);
 
             if((inputFile = fopen(inputFileName, "r"))==NULL)
             {
 
-                fprintf(stderr, "ERROR: Could not open input file");
+                fprintf(stderr, "ERROR: Could not open input file \"%s\"\n", inputFileName);
+                fflush(stderr);
                 continue;//Breaks out of the if
 
             }
 
             fprintf(stdout, "Enter the output file:");
+            fflush(stdout);
             scanf(" %s", outputFileName);
 
             if((outputFile = fopen(outputFileName, "w"))==NULL)
             {
 
-                fprintf(stderr, "ERROR: Could not open output file");
+                fprintf(stderr, "ERROR: Could not open output file \"%s\"\n", outputFileName);
+                fflush(stderr);
                 continue;
 
             }
@@ -181,23 +191,27 @@ int prgm_ui(){
             FILE *inputFile, *outputFile;
 
             printf("Enter the input file:");
+            fflush(stdout);
             scanf(" %s", inputFileName);
 
             if((inputFile = fopen(inputFileName, "r"))==NULL)
             {
 
-                fprintf(stderr, "ERROR: Could not open input file");
+                fprintf(stderr, "ERROR: Could not open input file \"%s\"\n", inputFileName);
+                fflush(stderr);
                 continue;
 
             }
 
             printf("Enter the output file:");
+            fflush(stdout);
             scanf(" %s", outputFileName);
 
             if((outputFile = fopen(outputFileName, "w"))==NULL)
             {
 
-                fprintf(stderr, "ERROR: Could not open output file");
+                fprintf(stderr, "ERROR: Could not open output file \"%s\"\n", outputFileName);
+                fflush(stderr);
                 continue;
 
             }
@@ -212,6 +226,7 @@ int prgm_ui(){
         {
 
             fprintf(stderr, "Error: Invalid input\n");
+            fflush(stderr);
 
         }
 
