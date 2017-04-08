@@ -1,6 +1,11 @@
-*.txt
-*.exe
-*.dev
-*.o
-*.layout
-*.win
+# Ignore everything
+*
+
+# But not these files...
+!.gitignore
+!*.c
+!*.h
+# etc...
+
+# ...even if they are in subdirectories
+!*/
