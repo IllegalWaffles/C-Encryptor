@@ -12,7 +12,7 @@ Arg_data *parse_args(char **argv, int argc){
     
     if(argc == 1){
         
-        argdata->error = true;
+        argdata->ui = true;
         return argdata;
         
     }
