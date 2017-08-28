@@ -12,7 +12,7 @@ Arg_data *parse_args(char **argv, int argc){
     
     if(argc == 1){
         
-        argdata->ui = true;
+        argdata->error = true;
         return argdata;
         
     }
@@ -111,16 +111,12 @@ int prgm_ui(){
     input = (char *)calloc(MAX_INPUT_LENGTH, sizeof(char));
     key = (char *)calloc(MAX_KEY_LENGTH, sizeof(char));
     
-	memset(key, 0, MAX_KEY_LENGTH);
-	memset(input, 0, MAX_KEY_LENGTH);
-	
     printf("Menu:\n\nk - Displays the current encryptor key\nnk - Sets a new encryptor key\n");
     printf("e - Encrypt a file and write it to the given file - you must include file extension (.txt)\n");
     printf("d - Decrypt a file and write the result to a given file - you must include file extension (.txt)\n");
-	printf("c - Clear current key\n");
     printf("q - Exit the program\n\n");
 
-    
+    *key = '\0';
 
     while(!finished){
 
@@ -132,7 +128,7 @@ int prgm_ui(){
         {
 
             finished++;
-            fprintf(stdout, "Exiting... goodbye!\n");
+            fprintf(stdout, "Exiting... goodbye!");
 
         }
         else if(strcmp(input, "k") == 0)
@@ -226,13 +222,6 @@ int prgm_ui(){
             fclose(outputFile);
 
         }
-		else if(strcmp(input, "c") == 0)
-		{
-			
-			printf("Key Cleared\n");
-			memset(key, 0, MAX_KEY_LENGTH);
-			
-		}
         else
         {
 
