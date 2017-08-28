@@ -35,9 +35,6 @@ void encrypt(FILE *inputFile, FILE *outputFile, char key[])
 	srand(hash(key));
 	char c, cipher, keyChar;
 	
-	printf("Encrypting...\n");
-	fflush(stdout);
-	
 	//While the input file has text
 	while((c = fgetc(inputFile)) != EOF)
 	{
@@ -52,8 +49,6 @@ void encrypt(FILE *inputFile, FILE *outputFile, char key[])
 	
 	}
 	
-	printf("Encryption complete\n");
-	
 }
 
 //Decrypts, char by char, FILE in and writes the result to FILE out.
@@ -62,9 +57,6 @@ void decrypt(FILE *inputFile, FILE *outputFile, char key[])
 	
 	srand(hash(key));
 	char c, plainText, keyChar;
-	
-	printf("Decrypting...\n");
-	fflush(stdout);
 	
 	//While the input has data
 	while((c = fgetc(inputFile)) != EOF)
@@ -85,8 +77,6 @@ void decrypt(FILE *inputFile, FILE *outputFile, char key[])
 		fputc(plainText, outputFile);
 	
 	}
-	
-	printf("Decryption complete\n");
 	
 }
 

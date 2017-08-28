@@ -25,12 +25,6 @@ fflush(stdout);\
 finish(EXIT);\
 }while(0)\
 
-#ifdef __WIN32__
-	#define clear() do{system("cls");}while(0)
-#else
-	#define clear() do{system("clear");}while(0)
-#endif
-
 typedef struct argdata {
 
     bool ui;

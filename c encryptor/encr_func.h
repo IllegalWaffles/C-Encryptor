@@ -2,7 +2,6 @@
 #define __FUNC_H__
 
 #include <stdio.h>
-#include "helpers.h"
 
 char toChar(int in);
 int toInt(char in);
